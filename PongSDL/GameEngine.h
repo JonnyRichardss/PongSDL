@@ -4,7 +4,6 @@
 #include "GameClock.h"
 #include "RenderEngine.h"
 #include "GameObject.h"
-#include "FPSCounter.h"
 #include <vector>
 #include "Global_Flags.h"
 class GameEngine
@@ -20,7 +19,6 @@ private:
 	
 	RenderEngine* rendering;
 	GameClock* clock;
-	FPSCounter* FPS;
 	std::vector<GameObject*> UpdateQueue;
 	void ProcessEvents();
 	void Update();

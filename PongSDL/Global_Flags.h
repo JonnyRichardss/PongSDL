@@ -1,7 +1,7 @@
 #ifndef USE_GAMEGLOBALS
 #define USE_GAMEGLOBALS
 
-const int GF_FRAME_CAP = 240;
+const int GF_FRAME_CAP = 60;
 
 
 

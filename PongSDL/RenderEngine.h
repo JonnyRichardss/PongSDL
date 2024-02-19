@@ -3,7 +3,6 @@
 #define USE_RENDER
 #include"SDL.h"
 #include "GameClock.h"
-#include "SDL_ttf.h"
 #include "RenderableComponent.h"
 #include <vector>
 class RenderEngine
