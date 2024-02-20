@@ -2,8 +2,9 @@
 #define USE_GAMEOBJECT
 #include "RenderableComponent.h"
 #include "RenderEngine.h"
-
+#include "GameMath.h"
 #include "GameClock.h"
+#include "ColourRGBA.h"
 class GameObject
 {
 public:
@@ -15,11 +16,17 @@ public:
 	void Hide();
 	void Show();
 	void ToggleVisibility();
+	
 	virtual void Init() = 0;
+	virtual void InitVisuals() = 0;
 protected:
 	int windowWidth, windowHeight;
+	Vector2 position;
+	Vector2 velocity;
+	virtual void MoveVisuals() = 0;
 	virtual void Update() = 0;
 	void GetWindowParams();
+	
 	bool shown;
 	RenderEngine* renderer;
 	GameClock* clock;

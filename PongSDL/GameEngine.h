@@ -23,6 +23,5 @@ private:
 	void ProcessEvents();
 	void Update();
 	void GameLoop();
-	void ExitGame();
 };
 #endif // !USE_ENGINE

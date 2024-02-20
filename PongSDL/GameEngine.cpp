@@ -1,5 +1,6 @@
 #include "GameEngine.h"
 #include <iostream>
+#include "PongBall.h"
 static GameEngine* _instance;
 GameEngine::GameEngine()
 {
@@ -22,7 +23,8 @@ GameEngine* GameEngine::GetInstance()
 
 void GameEngine::StartLoop()
 {
-    
+    PongBall* ball = new PongBall();
+    RegisterObject(ball);
     GameLoop();
 }
 
@@ -30,6 +32,7 @@ void GameEngine::RegisterObject(GameObject* g)
 {
     UpdateQueue.push_back(g);
     g->Init();
+    g->InitVisuals();
 }
 
 void GameEngine::ProcessEvents()
@@ -42,7 +45,7 @@ void GameEngine::ProcessEvents()
                 rendering->ToggleFullscreen();
                 break;
             case SDLK_ESCAPE:
-                ExitGame();
+                ENGINE_QUIT_FLAG = true;
                 break;
             case SDLK_F10:
                 clock->SetFPSLimit(GF_FRAME_CAP);
@@ -55,7 +58,7 @@ void GameEngine::ProcessEvents()
             }
         }
         if (event.type == SDL_QUIT) {
-            ExitGame();
+            ENGINE_QUIT_FLAG = true;
         }
     }
 }
@@ -81,10 +84,5 @@ void GameEngine::GameLoop() {
         std::cout << "Frame " << clock->GetFrameCount() << " - " << clock->GetFPS() << " - ";
         std::cout << clock->GetBudgetPercent() << "%\n";
     }
-}
-
-
-void GameEngine::ExitGame() {
-    SDL_Quit();
-    ENGINE_QUIT_FLAG = true;
+    SDL_Quit(); //do this after so no null accesses - it still happens oh well
 }

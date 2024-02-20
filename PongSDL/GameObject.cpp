@@ -23,6 +23,7 @@ void GameObject::GetWindowParams()
 bool GameObject::UpdateAndRender(RenderableComponent*& render)
 {
 	Update();
+	MoveVisuals();
 	if (shown) {
 		render = visuals;
 		return true;
@@ -46,3 +47,4 @@ void GameObject::ToggleVisibility()
 {
 	shown = shown ? false : true;
 }
+
