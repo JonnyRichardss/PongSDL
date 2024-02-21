@@ -23,6 +23,7 @@ private:
 	std::vector<GameObject*> UpdateQueue;
 	void ProcessEvents();
 	void Update();
+	void MoveStatics();
 	void GameLoop();
 	void DrawBBs();
 	void PongInput();

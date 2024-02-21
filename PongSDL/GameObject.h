@@ -21,10 +21,12 @@ public:
 	virtual void Init() = 0;
 	virtual void InitVisuals() = 0;
 	void DrawBoundingBox();
+	bool GetStaticStatus();
+	void MoveVisuals();
 	Vector2 GetPos();
 	Vector2 GetBB();
 protected:
-	void MoveVisuals();
+	
 	virtual void Update() = 0;
 
 	int windowWidth, windowHeight;

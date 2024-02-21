@@ -58,7 +58,6 @@ void GameObject::GetWindowParams()
 }
 bool GameObject::UpdateAndRender(RenderableComponent*& render)
 {
-	GetWindowParams();
 	Update();
 	
 	if (shown) {
@@ -98,6 +97,11 @@ void GameObject::DrawBoundingBox()
 	SDL_RenderDrawPoint(renderContext, WindowPos.x, WindowPos.y);
 }
 
+bool GameObject::GetStaticStatus()
+{
+	return is_static;
+}
+
 Vector2 GameObject::GetPos()
 {
 	return position;
@@ -110,6 +114,7 @@ Vector2 GameObject::GetBB()
 
 void GameObject::MoveVisuals()
 {
+	GetWindowParams();
 	SDL_Rect pos = BBtoDestRect();
 	
 	visuals->UpdateDestPos(&pos);

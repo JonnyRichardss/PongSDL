@@ -50,6 +50,7 @@ void GameEngine::ProcessEvents()
             switch (event.key.keysym.sym) {
             case SDLK_F11:
                 rendering->ToggleFullscreen();
+                MoveStatics();
                 break;
             case SDLK_ESCAPE:
                 ENGINE_QUIT_FLAG = true;
@@ -81,7 +82,12 @@ void GameEngine::Update()
     }
 }
 
-
+void GameEngine::MoveStatics(){
+    for (GameObject* g : UpdateQueue) {
+        if(g->GetStaticStatus())
+            g->MoveVisuals();
+    }
+}
 
 void GameEngine::GameLoop() {
     while (!ENGINE_QUIT_FLAG) {
