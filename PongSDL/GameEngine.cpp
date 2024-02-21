@@ -2,10 +2,12 @@
 #include <iostream>
 #include "PongBall.h"
 #include "PlayerController.h"
+#include "PadHandler.h"
+
 static GameEngine* _instance;
 GameEngine::GameEngine()
 {
-    SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_Init(SDL_INIT_EVENTS);
     clock = GameClock::GetInstance();
     rendering = RenderEngine::GetInstance(); 
     clock->SetFPSLimit(FRAME_CAP);
@@ -21,17 +23,30 @@ GameEngine* GameEngine::GetInstance()
         _instance = new GameEngine();
     return _instance;
 }
-
+void ShowSDLVer(){
+    SDL_version compiled;
+    SDL_version linked;
+    SDL_VERSION(&compiled);
+    SDL_GetVersion(&linked);
+    char buffer[sizeof(int) * 8 + 1];
+	itoa(compiled.major, buffer, 10);
+    std::cout << "compiled on SDL "<<buffer<<".";
+    itoa(compiled.minor, buffer, 10);
+    std::cout << "linked on SDL "<<buffer <<"\n";
+    itoa(linked.major, buffer, 10);
+    std::cout <<buffer<<".";
+    itoa(linked.minor, buffer, 10);
+    std::cout <<buffer <<"\n";
+}
 void GameEngine::StartLoop()
 {
-    std::cout << "LOOSTART\n";
+    ShowSDLVer();
+    std::cout << "LOOPSTART\n";
     //SDL_Init(SDL_INIT_JOYSTICK);
     ball = new PongBall();
     
     RegisterObject(ball);
-    SDL_Joystick* joy;
-    joy = SDL_JoystickOpen(0);
-    std::cout <<SDL_GetError()<<"\n";
+    PadInit();
     GameLoop();
 }
 
@@ -90,17 +105,27 @@ void GameEngine::MoveStatics(){
 }
 
 void GameEngine::GameLoop() {
-    while (!ENGINE_QUIT_FLAG) {
+    while (true) {
+        //std::cout<<"|\n";
         ProcessEvents();
+        //std::cout<<"E\n";
         PongInput();
+       // std::cout<<"I\n";
         Update();
+        // std::cout<<"U\n";
         rendering->RenderFrame();
+        // std::cout<<"R\n";
         if (DEBUG_DRAW_BB)
             DrawBBs();
+             //std::cout<<"D\n";
         clock->Tick();
-        std::cout << SDL_NumJoysticks()<<"JOYS\n";
+        // std::cout<<"T\n";
+          //std::cout<<"\n";
+        //std::cout << SDL_NumJoysticks()<<"JOYS\n";
         std::cout << "Frame " << clock->GetFrameCount() << " - " << clock->GetFPS() << " - ";
-        std::cout << clock->GetBudgetPercent() << "%\n";
+        std::cout << clock->GetBudgetPercent() <<"%  ";
+        std::cout << clock->GetRuntimeMS() << "\n";
+        //std::cout<<"|\n";
         
     }
     SDL_Quit(); //do this after so no null accesses - it still happens oh well
@@ -118,30 +143,34 @@ void GameEngine::DrawBBs()
 
 void GameEngine::PongInput()
 {
- /*    case SDLK_w:
-         ball->MovePlayer(true, true);
-         break;
-     case SDLK_s:
-         ball->MovePlayer(true, false);
-         break;
-     case SDLK_UP:
-         ball->MovePlayer(false, true);
-         break;
-     case SDLK_DOWN:
-         ball->MovePlayer(false, false);
-         break;*/
-    const Uint8* keystate = SDL_GetKeyboardState(NULL);
+    // const Uint8* keystate = SDL_GetKeyboardState(NULL);
 
-    if (keystate[SDL_SCANCODE_W]) {
-        ball->MovePlayer(true, true);
+    // if (keystate[SDL_SCANCODE_W]) {
+    //     ball->MovePlayer(true, true);
+    // }
+    // if (keystate[SDL_SCANCODE_S]) {
+    //     ball->MovePlayer(true, false);
+    // }
+    // if (keystate[SDL_SCANCODE_UP]) {
+    //     ball->MovePlayer(false, true);
+    // }
+    // if (keystate[SDL_SCANCODE_DOWN]) {
+    //     ball->MovePlayer(false, false);
+    // }
+
+
+    AllButtons* pads = PadGetInputs();
+    for(int i=0;i<2;i++){
+        if (pads[i].up){
+            ball->MovePlayer(!i,true);
+        }
+        if(pads[i].down){
+            ball->MovePlayer(!i,false);
+        }
+        if(pads[i].start){
+            ball->ResetGame();
+            break;
+        }
     }
-    if (keystate[SDL_SCANCODE_S]) {
-        ball->MovePlayer(true, false);
-    }
-    if (keystate[SDL_SCANCODE_UP]) {
-        ball->MovePlayer(false, true);
-    }
-    if (keystate[SDL_SCANCODE_DOWN]) {
-        ball->MovePlayer(false, false);
-    }
+    delete pads;
 }

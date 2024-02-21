@@ -3,6 +3,7 @@
 #define USE_COLOUR_RGBA
 #include "SDL.h"
 #include "GameMath.h"
+#include <iostream>
 struct ColourRGBA
 {
 	int r, g, b, a;
@@ -21,7 +22,10 @@ struct ColourRGBA
 		return ColourRGBA();
 	}
 	SDL_Surface* ColouredSurface() {
+		SDL_ClearError();
 		SDL_Surface* Surf = SDL_CreateRGBSurface(0, 1, 1, 32, 0, 0, 0, 0);
+		if (Surf == nullptr) std::cout << "\n\n\n COLOUR SURF GON\n\n\n\n";
+		std::cout<<"POSTCOLOR" <<SDL_GetError()<<"\n";
 		//const char* test = SDL_GetError();
 		SDL_FillRect(Surf, NULL, MapFromColour(Surf->format));
 		return Surf;

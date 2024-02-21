@@ -115,3 +115,6 @@ void GameClock::WaitFor(std::chrono::nanoseconds wait_ns)
 		break;
 	}
 }
+int GameClock::GetRuntimeMS(){
+	return (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - ENGINE_START_TP).count());
+}

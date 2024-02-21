@@ -2,6 +2,7 @@
 #define USE_GAMECLOCK
 #include <chrono>
 #include "Global_Flags.h"
+#include <string>
 using namespace std::chrono_literals;
 class GameClock
 {
@@ -14,6 +15,7 @@ public:
 	std::chrono::high_resolution_clock::time_point GetTimePoint();
 	int GetFPS();
 	void SetFPSLimit(int fps);
+	int GetRuntimeMS();
 private:
 	GameClock();
 	~GameClock();

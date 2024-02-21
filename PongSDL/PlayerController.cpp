@@ -49,6 +49,7 @@ void PlayerController::Update()
 void PlayerController::InitVisuals()
 {
 	SDL_Surface* Surf = ColourRGBA::White().ColouredSurface();
+	if (Surf == nullptr) std::cout << "\n\n\n INITVISUALSSURF GON\n\n\n\n";
 	SDL_Texture* Tex = SDL_CreateTextureFromSurface(renderContext, Surf);
 
 	SDL_FreeSurface(Surf);

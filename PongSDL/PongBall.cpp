@@ -50,7 +50,7 @@ void PongBall::InitVisuals()
 {
 	SDL_Surface* Surf = ColourRGBA::White().ColouredSurface();
 	SDL_Texture* Tex = SDL_CreateTextureFromSurface(renderContext, Surf);
-
+if (Surf == nullptr) std::cout << "\n\n\n PONGBALL SURF GON\n\n\n\n";
 	SDL_FreeSurface(Surf);
 	visuals->UpdateTexture(Tex);
 

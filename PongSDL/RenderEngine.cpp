@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+#include "SDL_ttf.h"
 static RenderEngine* _instance;
 RenderEngine* RenderEngine::GetInstance()
 {
@@ -14,7 +15,7 @@ RenderEngine* RenderEngine::GetInstance()
 RenderEngine::RenderEngine()
 {
     clock = GameClock::GetInstance();
-    
+    TTF_Init();
     SDL_GetDesktopDisplayMode(0, &mode);
     window = SDL_CreateWindow("Jonathan Richards -- 26541501", mode.w /8, mode.h / 8, WINDOW_WIDTH, WINDOW_HEIGHT,SDL_WINDOW_SHOWN);
     renderContext = SDL_CreateRenderer(window, -1, 0);
@@ -38,7 +39,9 @@ SDL_Renderer* RenderEngine::GetRenderContext()
 void RenderEngine::RenderFrame()
 {
     SDL_SetRenderDrawColor(renderContext, 0, 0, 0, 0); //backg colour
+    //std::cout<<"DC\n";
     SDL_RenderClear(renderContext);
+    //std::cout<<"CLR\n";
     // test code
     /*
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -48,16 +51,26 @@ void RenderEngine::RenderFrame()
     SDL_RenderDrawLine(renderer, 200, 100, 200, 500);
     */
     std::sort(RenderQueue.begin(),RenderQueue.end(), [](auto a, auto b){return *a < *b;});
+    //std::cout<<"SORTQ\n";
+    int i=0;
     for (RenderableComponent* c : RenderQueue) {
+        i++;
         SDL_RenderCopy(renderContext, c->GetTexture(), c->GetSourcePos(), c->GetDestPos());
+        //std::cout<<"RDC "<<i<<"\n";
     }
     RenderQueue.clear();
+    //std::cout<<"CLRQ\n";
     SDL_SetRenderDrawColor(renderContext, 255, 255, 255, 255);
+    //std::cout<<"DCln\n";
     SDL_GetDesktopDisplayMode(0, &mode);
+    //std::cout<<"DDMODE\n";
     int width, height;
     SDL_GetWindowSize(window, &width, &height);
+   // std::cout<<"WDSIZE\n";
     SDL_RenderDrawLine(renderContext,width/2.0f,((height / 8.0f)),width/2.0f, (height - (height / 8.0f)));
+    //std::cout<<"DLINE\n";
     SDL_RenderPresent(renderContext);
+    //std::cout<<"PRESENT\n";
 }
 
 void RenderEngine::ToggleFullscreen()

@@ -1,5 +1,5 @@
 #include "PlayerScore.h"
-
+#include <iostream>
 void PlayerScore::Init()
 {
 
@@ -14,8 +14,8 @@ void PlayerScore::Init()
 void PlayerScore::InitVisuals()
 {
 
-	TTF_Init();
-	scoreFont = TTF_OpenFont("USN_STENCIL.TTF", CHAR_HEIGHT);
+	
+	
 	visuals->UpdateLayer(-1);
 	UpdateTexture();
 	SDL_Rect scoreLocation = BBtoDestRect();
@@ -34,11 +34,20 @@ void PlayerScore::Update()
 	//std::cout << "HELLO WORLD";
 }
 
+
 void PlayerScore::UpdateTexture()
 {
+	if (scoreFont == nullptr) scoreFont = TTF_OpenFont("USN_STENCIL.TTF", CHAR_HEIGHT);
 	char buffer[sizeof(int) * 8 + 1];
-	_itoa_s(score, buffer, 10);
-	SDL_Texture* scoreTexture = SDL_CreateTextureFromSurface(renderContext, TTF_RenderUTF8_LCD_Wrapped(scoreFont, buffer, { 255,255,255,255 }, { 0,0,0,0 }, 0));
+	itoa(score, buffer, 10);
+	SDL_Color white={255,255,255,255};
+	SDL_Color black = {0,0,0,255};
+	SDL_Surface* Surf = TTF_RenderUTF8_LCD_Wrapped(scoreFont, buffer, white, black, 0);
+	if (Surf == nullptr) std::cout << "\n\n\n PLAYERSCORE UPDATETEX  GON\n\n\n\n";
+	//std::cout << SDL_GetError()<<"\n";
+	SDL_Texture* scoreTexture = SDL_CreateTextureFromSurface(renderContext, Surf);
+	//std::cout << SDL_GetError()<<"\n";
+	SDL_FreeSurface(Surf);
 	visuals->UpdateTexture(scoreTexture);
 	if (score == 0)
 		BoundingBox.x = CHAR_WIDTH;
