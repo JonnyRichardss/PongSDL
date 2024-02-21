@@ -28,16 +28,16 @@ Vector2 GameObject::GameToWindowCoords(Vector2 GameCoords)
 	return GameCoords;
 }
 Vector2 GameObject::GameToWindowScaling(Vector2 vec) {
-	double ScaleFacX, ScaleFacY;
+	float ScaleFacX, ScaleFacY;
 	if (GAME_MAX_X > windowWidth)
-		ScaleFacX = (double)GAME_MAX_X / (double)windowWidth;
+		ScaleFacX = (float)GAME_MAX_X / (float)windowWidth;
 	else
-		ScaleFacX = (double)windowWidth / (double)GAME_MAX_X;
+		ScaleFacX = (float)windowWidth / (float)GAME_MAX_X;
 
 	if (GAME_MAX_Y > windowHeight)
-		ScaleFacY = (double)GAME_MAX_Y / (double)windowHeight;
+		ScaleFacY = (float)GAME_MAX_Y / (float)windowHeight;
 	else
-		ScaleFacY = (double)windowHeight / (double)GAME_MAX_Y;
+		ScaleFacY = (float)windowHeight / (float)GAME_MAX_Y;
 	vec.x *= ScaleFacX / 2.0f;
 	vec.y *= ScaleFacY / 2.0f;
 	return vec;

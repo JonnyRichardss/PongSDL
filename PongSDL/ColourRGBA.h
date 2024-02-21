@@ -11,7 +11,7 @@ struct ColourRGBA
 	Uint32 MapFromColour(SDL_PixelFormat* format) {
 		return SDL_MapRGB(format, r, g, b);
 	}
-	static ColourRGBA ColourLerp(ColourRGBA a, ColourRGBA b, long double fac) {
+	static ColourRGBA ColourLerp(ColourRGBA a, ColourRGBA b,  float fac) {
 		return ColourRGBA{ (int)Lerp(a.r,b.r,fac), (int)Lerp(a.g,b.g,fac), (int)Lerp(a.b,b.b,fac), (int)Lerp(a.a,b.a,fac) };
 	};
 	static ColourRGBA White() {

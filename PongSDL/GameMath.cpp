@@ -1,4 +1,4 @@
 #include "GameMath.h"
-long double Lerp(long double a, long double b, long double fac) {
+ float Lerp( float  a,  float b,   float fac) {
     return a + fac * (b - a);
 }

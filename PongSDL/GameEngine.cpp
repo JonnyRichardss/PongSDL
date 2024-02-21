@@ -5,7 +5,7 @@
 static GameEngine* _instance;
 GameEngine::GameEngine()
 {
-    SDL_Init(SDL_INIT_EVERYTHING);
+    //SDL_Init(SDL_INIT_EVERYTHING);
     clock = GameClock::GetInstance();
     rendering = RenderEngine::GetInstance(); 
     clock->SetFPSLimit(FRAME_CAP);

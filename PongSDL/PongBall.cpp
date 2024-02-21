@@ -103,7 +103,7 @@ void PongBall::CheckCollision()
 	}
 }
 bool PongBall::TryCollide(PlayerController* player) {
-	double dist = position.y - player->GetPos().y;
+	float dist = position.y - player->GetPos().y;
 	if (abs(dist)  > ((player->GetBB().y + BoundingBox.y) / 2.0f))
 		return false;
 	Vector2 CollisionNormal = player->GetSurfNormal();
