@@ -54,10 +54,11 @@ struct Vector2 {
     float GetMagnitude() {
         return sqrt(pow(x, 2)+ pow(y, 2));
     }
-    void Normalise() {
+    Vector2 Normalise() {
         float mag = GetMagnitude();
-        x = x / mag;
-        y = y / mag;
+        float _x = x / mag;
+        float _y = y / mag;
+        return Vector2(_x, _y);
     }
 };
  float Lerp( float a,  float b,  float fac);

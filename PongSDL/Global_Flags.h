@@ -19,7 +19,8 @@ const int BALL_SIZE = 15;
 
 const int PADDLE_MOVESPEED = 5;
 
-const float DEFLECTION_REDUCTION_MODIFIER = 500.0f;
+const float  ACCLERATION_CLAMP_FACTOR = 70000.0f;
+const float DEFLECTION_REDUCTION_MODIFIER = 250.0f;
 const bool DEBUG_DRAW_BB = false;
 enum WaitMethods {BUSY,SDL,THREAD};
 const WaitMethods GF_WAIT_METHOD = BUSY; //SDL seems to under-sleep and THREAD seems to over-sleep

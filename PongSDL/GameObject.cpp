@@ -10,6 +10,8 @@ GameObject::GameObject()
 	window = renderer->GetWindow();
 	renderContext = renderer->GetRenderContext();
 	GetWindowParams();
+	velocity = Vector2::zero();
+	position = Vector2::zero();
 }
 
 GameObject::~GameObject()

@@ -33,23 +33,16 @@ void PongBall::ResetGame()
 	player1->score = 0;
 	NewBall(true);
 }
-static RenderableComponent* debug = new RenderableComponent();
+
 
 void PongBall::Update()
 {
 	lifetime++;
+	velocity += velocity.Normalise() * ((float)lifetime / ACCLERATION_CLAMP_FACTOR);
 	position += velocity;
 	//collision
 	CheckCollision();
-	//
-	Vector2 posTemp = position;
-	//Vector2 bbTemp = BoundingBox;
-	position = Vector2(400, -300);
-	
-	SDL_Rect dest = BBtoDestRect();
-	position = posTemp;
-	debug->UpdateDestPos(&dest);
-	renderer->Enqueue(debug);
+
 }
 
 
@@ -63,13 +56,6 @@ void PongBall::InitVisuals()
 
 	SDL_Rect DefaultRect = BBtoDestRect();
 	visuals->UpdateDestPos(&DefaultRect);
-
-
-	SDL_Surface* Surf2 = ColourRGBA::White().ColouredSurface();
-	SDL_Texture* Tex2 = SDL_CreateTextureFromSurface(renderContext, Surf2);
-
-	SDL_FreeSurface(Surf2);
-	debug->UpdateTexture(Tex2);
 }
 
 void PongBall::CheckCollision()
@@ -117,7 +103,7 @@ void PongBall::BounceBat() {
 
 }
 void PongBall::Bounce(Vector2 SurfaceNormal) {
-	SurfaceNormal.Normalise();
+	SurfaceNormal = SurfaceNormal.Normalise();
 	velocity -= 2 * SurfaceNormal * Vector2::dot(velocity, SurfaceNormal);
 }
 

@@ -16,7 +16,7 @@ void PlayerScore::InitVisuals()
 
 	TTF_Init();
 	scoreFont = TTF_OpenFont("USN_STENCIL.TTF", CHAR_HEIGHT);
-	visuals->UpdateLayer(100);
+	visuals->UpdateLayer(-1);
 	UpdateTexture();
 	SDL_Rect scoreLocation = BBtoDestRect();
 	visuals->UpdateDestPos(&scoreLocation);
@@ -37,7 +37,7 @@ void PlayerScore::Update()
 void PlayerScore::UpdateTexture()
 {
 	char buffer[sizeof(int) * 8 + 1];
-	itoa(score, buffer, 10);
+	_itoa_s(score, buffer, 10);
 	SDL_Texture* scoreTexture = SDL_CreateTextureFromSurface(renderContext, TTF_RenderUTF8_LCD_Wrapped(scoreFont, buffer, { 255,255,255,255 }, { 0,0,0,0 }, 0));
 	visuals->UpdateTexture(scoreTexture);
 	if (score == 0)
