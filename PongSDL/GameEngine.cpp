@@ -5,7 +5,9 @@
 static GameEngine* _instance;
 GameEngine::GameEngine()
 {
-    //SDL_Init(SDL_INIT_EVERYTHING);
+    std::cout << "Starting SDL\n";
+    //sSDL_Quit();
+    SDL_Init(SDL_INIT_EVENTS);
     clock = GameClock::GetInstance();
     rendering = RenderEngine::GetInstance(); 
     clock->SetFPSLimit(FRAME_CAP);
@@ -24,9 +26,14 @@ GameEngine* GameEngine::GetInstance()
 
 void GameEngine::StartLoop()
 {
+    std::cout << "LOOSTART\n";
+    //SDL_Init(SDL_INIT_JOYSTICK);
     ball = new PongBall();
     
     RegisterObject(ball);
+    SDL_Joystick* joy;
+    joy = SDL_JoystickOpen(0);
+    std::cout <<SDL_GetError()<<"\n";
     GameLoop();
 }
 
@@ -87,6 +94,7 @@ void GameEngine::GameLoop() {
         if (DEBUG_DRAW_BB)
             DrawBBs();
         clock->Tick();
+        std::cout << SDL_NumJoysticks()<<"JOYS\n";
         std::cout << "Frame " << clock->GetFrameCount() << " - " << clock->GetFPS() << " - ";
         std::cout << clock->GetBudgetPercent() << "%\n";
         

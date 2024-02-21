@@ -3,8 +3,8 @@
 
 const int FRAME_CAP = 60;
 
-const int WINDOW_WIDTH = 1200;
-const int WINDOW_HEIGHT = 900;
+const int WINDOW_WIDTH = 640;
+const int WINDOW_HEIGHT = 448;
 const int GAME_MAX_X = 400;
 const int GAME_MAX_Y = 300;
 
