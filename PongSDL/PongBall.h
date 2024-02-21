@@ -1,22 +1,26 @@
 #ifndef USE_PONGBALL
 #define USE_PONGBALL
 #include "GameObject.h"
+#include "PlayerController.h"
 class PongBall : public GameObject
 {
 public:
 	void Init();
-	void NewBall();
+	void NewBall(bool ServerPlayer);
+	void MovePlayer(bool player, bool up);
 protected:
 	
 	void Update();
-	void MoveVisuals();
 	int lifetime;
 	void InitVisuals();
 	void CheckCollision();
 
-	void BounceBat();
+	bool TryCollide(PlayerController* player);
 
-	void Bounce();
+	void BounceBat();
+	PlayerController* player0;
+	PlayerController* player1;
+	void Bounce(Vector2 SurfaceNormal);
 	
 };
 

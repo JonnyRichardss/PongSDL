@@ -1,13 +1,14 @@
 #include "GameEngine.h"
 #include <iostream>
 #include "PongBall.h"
+#include "PlayerController.h"
 static GameEngine* _instance;
 GameEngine::GameEngine()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
     clock = GameClock::GetInstance();
     rendering = RenderEngine::GetInstance(); 
-    clock->SetFPSLimit(GF_FRAME_CAP);
+    clock->SetFPSLimit(FRAME_CAP);
 }
 
 GameEngine::~GameEngine()
@@ -23,7 +24,8 @@ GameEngine* GameEngine::GetInstance()
 
 void GameEngine::StartLoop()
 {
-    PongBall* ball = new PongBall();
+    ball = new PongBall();
+    
     RegisterObject(ball);
     GameLoop();
 }
@@ -48,13 +50,12 @@ void GameEngine::ProcessEvents()
                 ENGINE_QUIT_FLAG = true;
                 break;
             case SDLK_F10:
-                clock->SetFPSLimit(GF_FRAME_CAP);
+                clock->SetFPSLimit(FRAME_CAP);
                 break;
             case SDLK_F9:
                 clock->SetFPSLimit(0);
                 break;
-            case SDLK_F8:
-                break;
+           
             }
         }
         if (event.type == SDL_QUIT) {
@@ -78,11 +79,55 @@ void GameEngine::Update()
 void GameEngine::GameLoop() {
     while (!ENGINE_QUIT_FLAG) {
         ProcessEvents();
+        PongInput();
         Update();
         rendering->RenderFrame();
+        if (DEBUG_DRAW_BB)
+            DrawBBs();
         clock->Tick();
         std::cout << "Frame " << clock->GetFrameCount() << " - " << clock->GetFPS() << " - ";
         std::cout << clock->GetBudgetPercent() << "%\n";
+        
     }
     SDL_Quit(); //do this after so no null accesses - it still happens oh well
+}
+
+void GameEngine::DrawBBs()
+{
+    SDL_Renderer* renderContext = rendering->GetRenderContext();
+    SDL_SetRenderDrawColor(renderContext, 255, 0, 0, 255);
+    for (GameObject* g : UpdateQueue) {
+        g->DrawBoundingBox();
+    }
+    SDL_RenderPresent(renderContext);
+}
+
+void GameEngine::PongInput()
+{
+ /*    case SDLK_w:
+         ball->MovePlayer(true, true);
+         break;
+     case SDLK_s:
+         ball->MovePlayer(true, false);
+         break;
+     case SDLK_UP:
+         ball->MovePlayer(false, true);
+         break;
+     case SDLK_DOWN:
+         ball->MovePlayer(false, false);
+         break;*/
+    const Uint8* keystate = SDL_GetKeyboardState(NULL);
+
+    if (keystate[SDL_SCANCODE_W]) {
+        ball->MovePlayer(true, true);
+    }
+    if (keystate[SDL_SCANCODE_S]) {
+        ball->MovePlayer(true, false);
+    }
+    if (keystate[SDL_SCANCODE_UP]) {
+        ball->MovePlayer(false, true);
+    }
+    if (keystate[SDL_SCANCODE_DOWN]) {
+        ball->MovePlayer(false, false);
+    }
 }

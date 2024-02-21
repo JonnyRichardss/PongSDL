@@ -51,6 +51,9 @@
     <ClInclude Include="PongBall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerScore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameClock.cpp">
@@ -84,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PongBall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerScore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

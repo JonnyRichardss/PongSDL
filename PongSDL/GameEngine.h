@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include <vector>
 #include "Global_Flags.h"
+class PongBall;
 class GameEngine
 {
 public:
@@ -16,12 +17,14 @@ private:
 	GameEngine();
 	~GameEngine();
 	bool ENGINE_QUIT_FLAG = false;
-	
+	PongBall* ball;
 	RenderEngine* rendering;
 	GameClock* clock;
 	std::vector<GameObject*> UpdateQueue;
 	void ProcessEvents();
 	void Update();
 	void GameLoop();
+	void DrawBBs();
+	void PongInput();
 };
 #endif // !USE_ENGINE

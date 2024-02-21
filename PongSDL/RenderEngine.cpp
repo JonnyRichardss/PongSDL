@@ -16,7 +16,7 @@ RenderEngine::RenderEngine()
     clock = GameClock::GetInstance();
     
     SDL_GetDesktopDisplayMode(0, &mode);
-    window = SDL_CreateWindow("Jonathan Richards -- 26541501", mode.w /4, mode.h / 4, 800, 600, SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow("Jonathan Richards -- 26541501", mode.w /8, mode.h / 8, WINDOW_WIDTH, WINDOW_HEIGHT,SDL_WINDOW_SHOWN);
     renderContext = SDL_CreateRenderer(window, -1, 0);
 }
 
@@ -52,6 +52,11 @@ void RenderEngine::RenderFrame()
         SDL_RenderCopy(renderContext, c->GetTexture(), c->GetSourcePos(), c->GetDestPos());
     }
     RenderQueue.clear();
+    SDL_SetRenderDrawColor(renderContext, 255, 255, 255, 255);
+    SDL_GetDesktopDisplayMode(0, &mode);
+    int width, height;
+    SDL_GetWindowSize(window, &width, &height);
+    SDL_RenderDrawLine(renderContext,width/2.0f,((height / 8.0f)),width/2.0f, (height - (height / 8.0f)));
     SDL_RenderPresent(renderContext);
 }
 
