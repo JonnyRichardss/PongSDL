@@ -17,7 +17,7 @@ void PongBall::Init()
 
 void PongBall::NewBall(bool ServePlayer)
 {
-	position = Vector2(0,0);
+	position = ServePlayer ? Vector2(-100, 0) : Vector2(100, 0);
 	velocity = ServePlayer ? Vector2(5, 0) : Vector2(-5, 0);
 	lifetime = 0;
 }
