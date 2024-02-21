@@ -8,6 +8,7 @@ public:
 	void Init();
 	void NewBall(bool ServerPlayer);
 	void MovePlayer(bool player, bool up);
+	void ResetGame();
 protected:
 	
 	void Update();

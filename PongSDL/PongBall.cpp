@@ -27,6 +27,12 @@ void PongBall::MovePlayer(bool player, bool up)
 	PlayerController* playerP = player ? player1: player0;
 	playerP->Move(up);
 }
+void PongBall::ResetGame()
+{
+	player0->score = 0;
+	player1->score = 0;
+	NewBall(true);
+}
 static RenderableComponent* debug = new RenderableComponent();
 
 void PongBall::Update()

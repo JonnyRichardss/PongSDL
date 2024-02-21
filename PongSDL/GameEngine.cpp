@@ -55,7 +55,9 @@ void GameEngine::ProcessEvents()
             case SDLK_F9:
                 clock->SetFPSLimit(0);
                 break;
-           
+            case SDLK_SPACE:
+                ball->ResetGame();
+                break;
             }
         }
         if (event.type == SDL_QUIT) {
