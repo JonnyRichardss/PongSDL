@@ -5,4 +5,10 @@ https://github.com/JonnyRichardss/GameProgrammingAssessment
 
 
 This is the version that runs on a windows PC - the PS2 version relies on specialised input handling due to some SDL bugs
-I am currently having trouble with GitHub Releases so the Release.zip is just included in the root of the source files
+PC Controls:
+Player 1: 
+W,S
+Player 2:
+Up arrow, Down arrow
+
+Reset - Space
